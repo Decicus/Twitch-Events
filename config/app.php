@@ -212,6 +212,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'BBCode' => Golonka\BBCode\Facades\BBCodeParser::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

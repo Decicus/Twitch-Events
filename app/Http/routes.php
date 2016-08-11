@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', ['as' => 'home', 'uses' => 'BaseController@home']);
+
+Route::group(['prefix' => 'auth', 'as' => 'auth.'], function() {
+    Route::get('twitch', ['as' => 'twitch', 'uses' => 'TwitchAuthController@redirectToAuth']);
+    Route::get('twitch/callback', ['as' => 'twitch.callback', 'uses' => 'TwitchAuthController@handleCallback']);
+    Route::get('logout', ['as' => 'logout', 'uses' => 'TwitchAuthController@logout']);
 });
