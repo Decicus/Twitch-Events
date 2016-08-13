@@ -18,7 +18,7 @@ class User extends Authenticatable
      *
      * @var bool
      */
-    protected $incrementing = false;
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.

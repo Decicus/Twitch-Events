@@ -35,7 +35,6 @@ class TwitchAuthController extends Controller
         try {
             $user = Socialite::with('twitch')->user();
         } catch (Exception $e) {
-            // TODO: Handle error redirect
             return redirect()->route('home');
         }
 
