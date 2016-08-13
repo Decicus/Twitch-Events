@@ -14,8 +14,8 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 96);
-            $table->text('description');
+            $table->string('title', 100);
+            $table->string('description', 10000);
 
             $table->timestamps();
             $table->softDeletes();

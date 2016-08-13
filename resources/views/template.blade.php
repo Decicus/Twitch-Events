@@ -48,5 +48,6 @@
 
         <script src="/static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
         <script src="/static/js/bootstrap.min.js" charset="utf-8"></script>
+        @yield('footer')
     </body>
 </html>
