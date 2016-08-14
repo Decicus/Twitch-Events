@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Http\Requests\AddEventRequest;
+use App\Http\Requests\EditEventRequest;
+
 use App\Event;
 class AdminEventController extends Controller
 {
@@ -21,23 +24,26 @@ class AdminEventController extends Controller
             'page' => 'Add Event'
         ];
 
-        if ($request->isMethod('post')) {
-            $check = $this->checkRequestData($request);
+        return view('admin.events.add', $data);
+    }
 
-            if (is_array($check) && isset($check['type'], $check['text'])) {
-                $data['message'] = $check;
-                $data['title'] = $request->input('title', null);
-                $data['description'] = $request->input('description', null);
-            }
+    /**
+     * Handles event adding
+     *
+     * @param AddEventRequest $request
+     * @return Response
+     */
+    public function addPost(AddEventRequest $request)
+    {
+        $data = [
+            'page' => 'Add Event'
+        ];
 
-            if ($check === true) {
-                $event = new Event();
-                $event->title = trim($request->input('title'));
-                $event->description = trim($request->input('description'));
-                $event->save();
-                $data['message'] = $this->message('This event has been successfully saved.', 'success');
-            }
-        }
+        $event = new Event();
+        $event->title = trim($request->input('title'));
+        $event->description = trim($request->input('description'));
+        $event->save();
+        $data['message'] = $this->message('This event has been successfully saved.', 'success');
 
         return view('admin.events.add', $data);
     }
@@ -46,13 +52,48 @@ class AdminEventController extends Controller
      * The view for editing events
      *
      * @param Request $request
+     * @param int $id ID of the event
      * @return Response
      */
-    public function edit(Request $request)
+    public function edit(Request $request, $id = null)
     {
         $data = [
             'page' => 'Edit Event'
         ];
+
+        if (!empty($id)) {
+            $event = Event::where(['id' => $id])->first();
+            if (empty($event)) {
+                $data['message'] = $this->message('An event with this ID does not exist.');
+            }
+
+            $data['event'] = $event;
+        }
+
+        $data['events'] = Event::all();
+
+        return view('admin.events.edit', $data);
+    }
+
+    /**
+     * Handles event editing
+     *
+     * @param  EditEventRequest $request
+     * @return Response
+     */
+    public function editPost(EditEventRequest $request)
+    {
+        $data = [
+            'page' => 'Edit Event'
+        ];
+
+        $event = Event::where(['id' => $request->input('id')])->first();
+        $event->title = trim($request->input('title'));
+        $event->description = trim($request->input('description'));
+        $event->save();
+        $data['message'] = $this->message('This event has been successfully updated.', 'success');
+
+        $data['events'] = Event::all();
 
         return view('admin.events.edit', $data);
     }
@@ -81,35 +122,5 @@ class AdminEventController extends Controller
     private function message($text, $type = 'warning')
     {
         return ['type' => $type, 'text' => $text];
-    }
-
-    /**
-     * Checks the request data and verifies if it can be added as an event.
-     *
-     * @param  Request $request The POST request from the forms
-     * @return array|bool Array for the error view, or bool if all checks have passed.
-     */
-    private function checkRequestData(Request $request)
-    {
-        if (!$request->has('title')) {
-            return $this->message('An event title is required.');
-        }
-
-        if (!$request->has('description')) {
-            return $this->message('An event description is required.');
-        }
-
-        $title = trim($request->input('title'));
-        $description = trim($request->input('description'));
-
-        if (strlen($title) > 100) {
-            return $this->message('Title cannot be more than 100 characters.');
-        }
-
-        if (strlen($description) > 10000) {
-            return $this->message('Description cannot be more than 10000 characters.');
-        }
-
-        return true;
     }
 }

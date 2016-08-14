@@ -18,10 +18,23 @@
 
                 <ul class="nav navbar-nav">
                     <li{!! $page === 'Home' ? ' class="active"' : '' !!}><a href="{{ route('home') }}"><i class="fa fa-home fa-1x"></i> Home</a></li>
+
+                    @if (Auth::check() && Auth::user()->admin)
+                        <li class="dropdown {!! Request::is('admin/*') ? 'active' : '' !!}">
+                            <a href="#" class="dropdown navbar-link" data-toggle="dropdown">
+                                <i class="fa fa-shield fa-1x"></i> Admin <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li{!! $page === 'Add Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.add') }}"><i class="fa fa-plus-square fa-1x"></i> Add Event</a></li>
+                                <li{!! $page === 'Edit Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.edit') }}"><i class="fa fa-pencil-square fa-1x"></i> Edit Event</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    @if(Auth::check())
+                    @if (Auth::check())
                         <div class="dropdown">
                             <a href="#" type="button" class="btn btn-default navbar-btn dropdown" data-toggle="dropdown">
                                 <i class="fa fa-user fa-1x"></i> {{ Auth::user()->display_name }} <span class="caret"></span>

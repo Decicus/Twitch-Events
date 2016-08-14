@@ -3,7 +3,7 @@
 @section('main')
     <div class="jumbotron">
         @include('errors')
-        <form action="{{ route('admin.events.add') }}" method="post">
+        <form action="{{ route('admin.events.add.post') }}" method="post">
             @include('admin.events.form')
 
             <button type="submit" class="btn btn-success">

@@ -13,10 +13,13 @@
 
 Route::get('/', ['as' => 'home', 'uses' => 'BaseController@home']);
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', 'web']], function() {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']], function() {
     Route::group(['prefix' => 'events', 'as' => 'events.'], function() {
-        Route::match(['get', 'post'], 'add', ['as' => 'add', 'uses' => 'AdminEventController@add']);
-        Route::match(['get', 'post'], 'edit', ['as' => 'edit', 'uses' => 'AdminEventController@edit']);
+        Route::get('add', ['as' => 'add', 'uses' => 'AdminEventController@add']);
+        Route::post('add', ['as' => 'add.post', 'uses' => 'AdminEventController@addPost']);
+        Route::get('edit/{id?}', ['as' => 'edit', 'uses' => 'AdminEventController@edit'])
+            ->where('id', '[0-9]+');
+        Route::post('edit', ['as' => 'edit.post', 'uses' => 'AdminEventController@editPost']);
         Route::match(['get', 'post'], 'delete', ['as' => 'delete', 'uses' => 'AdminEventController@delete']);
     });
 });

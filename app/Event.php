@@ -35,4 +35,12 @@ class Event extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    /**
+     * The users that have signed up for the event.
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'users_events', 'event', 'user');
+    }
 }

@@ -56,4 +56,12 @@ class User extends Authenticatable
             'display_name' => $user->nickname
         ]);
     }
+
+    /**
+     * The events the user has signed up for.
+     */
+    public function events()
+    {
+        return $this->belongsToMany('App\Event', 'users_events', 'user', 'event');
+    }
 }
