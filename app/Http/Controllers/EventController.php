@@ -40,8 +40,10 @@ class EventController extends Controller
             return redirect()->route('home', ['error' => 'invalid_event']);
         }
 
+        // Escape HTML-escape values before passing to the BBCode parser
         $event->description = htmlspecialchars($event->description);
         $data['event'] = $event;
+        $data['users'] = $event->users()->get();
         $data['page'] = 'Event title: ' . htmlspecialchars($event->title);
 
         return view('events.display', $data);

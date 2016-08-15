@@ -6,9 +6,12 @@
         <div class="list-group">
             @foreach ($events as $event)
                 <a href="{{ route('events.id', $event->id) }}" class="list-group-item">
-                    {{-- TODO: Make this less spaghetti. --}}
-                    <span class="label label-{{ !empty($event->users()->where(['id' => Auth::user()->id])->first()) ? 'success' : 'danger' }}"><i class="fa fa-1x fa-{{ !empty($event->users()->where(['id' => Auth::user()->id])->first()) ? 'check-circle' : 'times-circle' }}"></i></span>
-                    {{ $event->title }}
+                    @if (!empty($event->users()->where(['id' => Auth::user()->id])->first()))
+                        <span class="label label-success"><i class="fa fa-check-circle fa-1x"></i></span>
+                    @else
+                        <span class="label label-danger"><i class="fa fa-times-circle fa-1x"></i></span>
+                    @endif
+                    <strong>{{ $event->title }}</strong>
                 </a>
             @endforeach
         </div>

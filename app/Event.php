@@ -24,7 +24,7 @@ class Event extends Model
      * @var array
      */
     protected $dates = [
-        'deleted_at'
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -41,6 +41,6 @@ class Event extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User', 'users_events', 'event', 'user');
+        return $this->belongsToMany('App\User', 'users_events', 'event', 'user')->withTimestamps();
     }
 }

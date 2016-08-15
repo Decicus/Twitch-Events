@@ -5,6 +5,7 @@
         @include('errors')
 
         @if (count($events) > 0)
+            <h2>Available events for deletion:</h2>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>

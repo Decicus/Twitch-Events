@@ -17,6 +17,22 @@
             </div>
         </div>
 
-        {{-- TODO: Add user list for logged in admins. --}}
+        @if (Auth::user()->admin)
+            <h3>Signed up users ({{ count($users) }}):</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Twitch username:</th>
+                        <th>Sign up time:</th>
+                    </tr>
+                </thead>
+                @foreach ($users as $user)
+                    <tr>
+                        <th>{{ $user->display_name }}</th>
+                        <td>{{ $user->pivot->created_at->tz(env('TIMEZONE', 'UTC'))->format('Y-m-d h:i:s A T') }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
     </div>
 @endsection
