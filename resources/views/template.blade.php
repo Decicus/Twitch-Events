@@ -20,14 +20,16 @@
                     <li{!! $page === 'Home' ? ' class="active"' : '' !!}><a href="{{ route('home') }}"><i class="fa fa-home fa-1x"></i> Home</a></li>
 
                     @if (Auth::check() && Auth::user()->admin)
+                        <li{!! Request::is('events', 'events/*') ? ' class="active"' : '' !!}><a href="{{ route('events.base') }}"><i class="fa fa-list fa-1x"></i> Events</a></li>
                         <li class="dropdown {!! Request::is('admin/*') ? 'active' : '' !!}">
                             <a href="#" class="dropdown navbar-link" data-toggle="dropdown">
                                 <i class="fa fa-shield fa-1x"></i> Admin <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li{!! $page === 'Add Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.add') }}"><i class="fa fa-plus-square fa-1x"></i> Add Event</a></li>
-                                <li{!! $page === 'Edit Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.edit') }}"><i class="fa fa-pencil-square fa-1x"></i> Edit Event</a></li>
+                                <li{!! $page === 'Add Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.add') }}"><i class="fa fa-plus fa-1x"></i> Add Event</a></li>
+                                <li{!! $page === 'Edit Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.edit') }}"><i class="fa fa-pencil fa-1x"></i> Edit Event</a></li>
+                                <li{!! $page === 'Delete Event' ? ' class="active"' : '' !!}><a href="{{ route('admin.events.delete') }}"><i class="fa fa-trash fa-1x"></i> Delete Event</a></li>
                             </ul>
                         </li>
                     @endif

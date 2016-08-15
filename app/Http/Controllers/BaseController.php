@@ -27,6 +27,10 @@ class BaseController extends Controller
             'no_permission' => [
                 'type' => 'danger',
                 'text' => 'You do not have permission to view this page.'
+            ],
+            'invalid_event' => [
+                'type' => 'warning',
+                'text' => 'An invalid event ID was specified.'
             ]
         ];
 
