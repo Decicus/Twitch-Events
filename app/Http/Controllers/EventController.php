@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Http\Requests\JoinOrLeaveEventRequest;
+use Auth;
+
 use App\Event;
 class EventController extends Controller
 {
@@ -22,6 +25,28 @@ class EventController extends Controller
             'events' => Event::all()
         ];
 
+        $errors = [
+            'invalid_event' => [
+                'type' => 'warning',
+                'text' => 'An invalid event ID was specified.'
+            ],
+            'already_joined' => [
+                'type' => 'warning',
+                'text' => 'You have already joined this event.'
+            ],
+            'not_joined' => [
+                'type' => 'warning',
+                'text' => 'You cannot leave an event you have not joined.'
+            ]
+        ];
+
+        if ($request->has('error')) {
+            $error = $request->input('error');
+            if (isset($errors[$error])) {
+                $data['message'] = $errors[$error];
+            }
+        }
+
         return view('events.base', $data);
     }
 
@@ -29,15 +54,18 @@ class EventController extends Controller
      * Retrieves information about the specified event.
      * @param  Request $request
      * @param  int $id The ID of the event
+     * @param  array $message An array with message data for the view
      * @return Response
      */
-    public function event(Request $request, $id = null)
+    public function event(Request $request, $id = null, $message = [])
     {
-        $data = [];
+        $data = [
+            'message' => $message
+        ];
         $event = Event::where(['id' => $id])->first();
 
         if (empty($event)) {
-            return redirect()->route('home', ['error' => 'invalid_event']);
+            return redirect()->route('events.base', ['error' => 'invalid_event']);
         }
 
         // Escape HTML-escape values before passing to the BBCode parser
@@ -47,5 +75,41 @@ class EventController extends Controller
         $data['page'] = 'Event title: ' . htmlspecialchars($event->title);
 
         return view('events.display', $data);
+    }
+
+    /**
+     * Sings a user up for an event.
+     *
+     * @param  JoinOrLeaveEventRequest $request
+     * @return Response
+     */
+    public function join(JoinOrLeaveEventRequest $request)
+    {
+        $id = $request->input('id');
+        $event = Event::where(['id' => $id])->first();
+        $user = Auth::user();
+
+        if (!empty($event->users()->where(['id' => $user->id])->first())) {
+            return redirect()->route('events.base', ['error' => 'already_joined']);
+        }
+
+        $event->users()->attach($user);
+        $message = ['type' => 'success', 'text' => 'You have successfully joined this event.'];
+        return $this->event($request, $id, $message);
+    }
+
+    public function leave(JoinOrLeaveEventRequest $request)
+    {
+        $id = $request->input('id');
+        $event = Event::where(['id' => $id])->first();
+        $user = Auth::user();
+
+        if (empty($event->users()->where(['id' => $user->id])->first())) {
+            return redirect()->route('events.base', ['error' => 'not_joined']);
+        }
+
+        $event->users()->detach($user);
+        $message = ['type' => 'success', 'text' => 'You have successfully left this event.'];
+        return $this->event($request, $id, $message);
     }
 }

@@ -127,8 +127,8 @@ class AdminEventController extends Controller
         $data = [
             'page' => 'Delete Event'
         ];
-
-        $event = Event::where(['id' => $request->input('id')])->first();
+        $id = $request->input('id');
+        $event = Event::where(['id' => $id])->first();
         $event->delete();
         $data['message'] = $this->message('Event #' . $id . ' has been successfully deleted.', 'success');
 

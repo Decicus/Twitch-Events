@@ -31,6 +31,9 @@ Route::group(['prefix' => 'events', 'as' => 'events.', 'middleware' => 'auth'], 
     Route::get('/', ['as' => 'base', 'uses' => 'EventController@base']);
     Route::get('{id}', ['as' => 'id', 'uses' => 'EventController@event'])
         ->where('id', '[0-9]+');
+
+    Route::post('join', ['as' => 'join', 'uses' => 'EventController@join']);
+    Route::post('leave', ['as' => 'leave', 'uses' => 'EventController@leave']);
 });
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function() {

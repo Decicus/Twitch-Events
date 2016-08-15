@@ -1,0 +1,5 @@
+.label {
+    margin-right: 5px;
+    /* Adjust labels a little bit to align them with the text properly */
+    vertical-align: 2px;
+}
