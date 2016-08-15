@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Http\Requests\AddEventRequest;
 use App\Http\Requests\EditEventRequest;
+use App\Http\Requests\DeleteEventRequest;
 
 use App\Event;
 class AdminEventController extends Controller
@@ -43,7 +44,7 @@ class AdminEventController extends Controller
         $event->title = trim($request->input('title'));
         $event->description = trim($request->input('description'));
         $event->save();
-        $data['message'] = $this->message('This event has been successfully saved.', 'success');
+        $data['message'] = $this->message('A new event has been successfully saved. <a href="' . route('events.id', $event->id) . '" class="alert-link">View event</a>.', 'success');
 
         return view('admin.events.add', $data);
     }
@@ -109,6 +110,29 @@ class AdminEventController extends Controller
         $data = [
             'page' => 'Delete Event'
         ];
+
+        $data['events'] = Event::all();
+
+        return view('admin.events.delete', $data);
+    }
+
+    /**
+     * Handles event deleting
+     *
+     * @param  DeleteEventRequest $request
+     * @return Response
+     */
+    public function deletePost(DeleteEventRequest $request)
+    {
+        $data = [
+            'page' => 'Delete Event'
+        ];
+
+        $event = Event::where(['id' => $request->input('id')])->first();
+        $event->delete();
+        $data['message'] = $this->message('Event #' . $id . ' has been successfully deleted.', 'success');
+
+        $data['events'] = Event::all();
 
         return view('admin.events.delete', $data);
     }

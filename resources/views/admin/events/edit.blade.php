@@ -11,7 +11,7 @@
                 <input type="hidden" name="id" value="{{ $event->id }}">
 
                 <button type="submit" class="btn btn-warning">
-                    <i class="fa fa-pencil-square fa-1x"></i> Edit event
+                    <i class="fa fa-pencil fa-1x"></i> Edit event
                 </button>
             </form>
         @else

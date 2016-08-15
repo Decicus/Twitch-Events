@@ -7,7 +7,7 @@
             @include('admin.events.form')
 
             <button type="submit" class="btn btn-success">
-                <i class="fa fa-plus-square fa-1x"></i> Add event
+                <i class="fa fa-plus fa-1x"></i> Add event
             </button>
         </form>
     </div>
