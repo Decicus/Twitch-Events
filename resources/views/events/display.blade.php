@@ -9,7 +9,7 @@
             </div>
 
             <div class="panel-body">
-                {!! BBCode::parseCaseInsensitive($event->description) !!}
+                {!! Markdown::convertToHtml($event->description) !!}
             </div>
 
             <div class="panel-footer">

@@ -8,5 +8,5 @@
 <div class="form-group">
     <label for="description">Event description:</label>
     <textarea name="description" rows="8" cols="40" class="form-control" maxlength="10000" placeholder="Meetup at the White House - 12 PM CST">{!! $event->description or old('description') !!}</textarea>
-    <span class="help-block">Supports <a href="http://www.bbcode.org/reference.php">BBCode</a>.</span>
+    <span class="help-block">Supports <a href="https://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a>.</span>
 </div>

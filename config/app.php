@@ -164,7 +164,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         SocialiteProviders\Manager\ServiceProvider::class,
-        Golonka\BBCode\BBCodeParserServiceProvider::class,
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
     ],
 
     /*
@@ -211,8 +211,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'BBCode' => Golonka\BBCode\Facades\BBCodeParser::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
     ],
 
 ];
