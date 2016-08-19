@@ -1,27 +1,25 @@
-# Laravel PHP Framework
+# Twitch Events
+Twitch Events is just a quick project to create events and allow users to sign up with their Twitch account.
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+It doesn't have very many features, as it's core idea was just to have a headcount of who would want to attend to the events, but eventually more features will be added.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Requirements
+The following things are required for setting this up:
+- [Laravel's requirements](https://laravel.com/docs/5.2/installation#server-requirements)
+- [A database system that Laravel supports](https://laravel.com/docs/5.2/database#introduction)
+- [Composer](https://getcomposer.org/)
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+## Setup
+- Rename `.env.example` to `.env`, database information and Twitch application information is the most important.
+    - You can create a Twitch application here: https://www.twitch.tv/settings/connections. The redirect URL has to be `http://example.com/auth/twitch/callback` (where `example.com` is **your domain**) and needs to be set the same under `TWITCH_REDIRECT_URI` in the `.env` file.
+    - If you want to modify `TIMEZONE`, then it has to be a [timezone name that PHP supports](https://secure.php.net/manual/en/timezones.php).
+- Open the project directory via the command-line, e.g: `cd /var/www/Twitch-Events`
+    - Run `composer install` to install all the dependencies.
+    - Run `php artisan key:generate` to generate the application key.
+    - Run database migrations using `php artisan migrate`.
+- Login with Twitch via the webpage.
+    - **Admin access**: As a proper method has not been added yet, you have to log in first and manually edit the `users` table in your database.
+        - Find the user(s) you wish to make an admin, and set the `admin` column to `1`.
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+[MIT License](LICENSE)
