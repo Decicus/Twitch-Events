@@ -28,7 +28,7 @@ class EventController extends Controller
         $errors = [
             'invalid_event' => [
                 'type' => 'warning',
-                'text' => 'An invalid event ID was specified.'
+                'text' => 'An invalid event was specified.'
             ],
             'already_joined' => [
                 'type' => 'warning',
@@ -76,7 +76,7 @@ class EventController extends Controller
     }
 
     /**
-     * Sings a user up for an event.
+     * Signs a user up for an event.
      *
      * @param  JoinOrLeaveEventRequest $request
      * @return Response
@@ -96,6 +96,12 @@ class EventController extends Controller
         return $this->event($request, $id, $message);
     }
 
+    /**
+     * Removes a user from the specified event's signup list.
+     *
+     * @param  JoinOrLeaveEventRequest $request
+     * @return Response
+     */
     public function leave(JoinOrLeaveEventRequest $request)
     {
         $id = $request->input('id');
@@ -109,5 +115,15 @@ class EventController extends Controller
         $event->users()->detach($user);
         $message = ['type' => 'success', 'text' => 'You have successfully left this event.'];
         return $this->event($request, $id, $message);
+    }
+
+    /**
+     * Redirects back to /events for GET routes that aren't used.
+     *
+     * @return Response
+     */
+    public function redirectToEvents()
+    {
+        return redirect()->route('events.base', ['error' => 'invalid_event']);
     }
 }
